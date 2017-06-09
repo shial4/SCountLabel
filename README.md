@@ -16,15 +16,18 @@
 </p>
 
 SCountLabel is an easy to use Swift extension counter for UILabel. There is no need to use custom class for your labels. :)
-
 ## 💊 Usage
 You can count integer or floatingpoints values
 ```swift
 UILabel().count(to: "11")
 ```
+![int](https://github.com/shial4/SCountLabel/blob/master/Media/int.gif "int")
+
 ```swift
 UILabel().count(to: "11.0")
 ```
+![float](https://github.com/shial4/SCountLabel/blob/master/Media/float.gif "float")
+
 You can have multiple variaitons including few counting numbers in same string.
 ```swift
 UILabel().count(to: "11 and second number in same string -22.0")
@@ -35,10 +38,12 @@ More over you can pass your own time interval between value changes in your stri
 UILabel().count(from: "down 11.0 up 7", to: "down 5.0 up 11", interval: 0.2)
 ```
 For those who likes to play with strings format. Is it as well awaiable to modife for each number format passing it in array.
-Remember the format array have to be the sime element count as the shortest strings `from` or `to` number count.
+Remember the format array have to be the sime element count as the shortest strings `from` or `to` number count. And the format need to be specify for float values which means `"%f"`, ex:`"%.2f"` or `"%0.2f %%"` or any custom format you wont to add. 
 ```swift
 UILabel().count(from: "down 11.0 up 7", to: "down 5.0 up 11", format: ["%0.2f", "%0.0f"])
 ```
+![custom](https://github.com/shial4/SCountLabel/blob/master/Media/custom.gif "custom")
+
 Full example:
 ```swift
 UILabel().count(from: "down 11.0 up 7", to: "down 5.0 up 11", interval: 0.2, format: ["%0.2f", "%0.0f"])

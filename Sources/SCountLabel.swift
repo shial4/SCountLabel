@@ -13,7 +13,7 @@ extension UILabel {
         count(from: text ?? to, to: to, interval: interval, format: format)
     }
     
-    func count(from: String, to: String, interval: TimeInterval = 0.2, format: [String]? = nil) {
+    func count(from: String, to: String, interval: TimeInterval = 0.05, format: [String]? = nil) {
         struct Counter {
             static var timer: Timer?
             static func numbers(_ text: String) -> [String] {
@@ -26,19 +26,20 @@ extension UILabel {
                     return []
                 }
             }
-            fileprivate static func shouldContinue(_ from: Double, to: Double, round: Int) -> Bool {
+            fileprivate static func shouldContinue(_ from: Double, to: Double, round: Double, offset: Double = 0) -> Bool {
                 if to - from < 0 {
-                    return shift(from, to: to, round: round) > to
+                    return shift(from, to: to, round: round, offset: offset) > to
                 } else {
-                    return shift(from, to: to, round: round) < to
+                    return shift(from, to: to, round: round, offset: offset) < to
                 }
             }
             
-            fileprivate static func shift(_ from: Double, to: Double, round: Int) -> Double {
+            fileprivate static func shift(_ from: Double, to: Double, round: Double, offset: Double = 0) -> Double {
                 if to - from < 0 {
-                    return (from - Double(1 * round))
+                    return (from - (1 * pow(10.0, offset)) * round)
                 } else {
-                    return (from + Double(1 * round))
+                    print((from + (1 * pow(10.0, offset)) * round))
+                    return (from + (1 * pow(10.0, offset)) * round)
                 }
             }
         }
@@ -52,15 +53,16 @@ extension UILabel {
             self.text = to
             return
         }
-        var round: Int = 1
+        var round: Double = 1
         Counter.timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) {[weak self] timer in
             var fromString = from
             var shouldInvalidate = true
             for i in 0..<numbersCount {
                 guard let fromD = Double(fromValues[i]),
                     let toD = Double(toValues[i]),
-                    Counter.shouldContinue(fromD, to: toD, round: round) else { continue }
-                fromString = fromString.replacingOccurrences(of: fromValues[i], with: String(format: format?[i] ?? "%0.0f", Counter.shift(fromD, to: toD, round: round)))
+                    let offset = Double(format?[i].components(separatedBy: CharacterSet(charactersIn: ".0123456789").inverted).joined() ?? "0"),
+                    Counter.shouldContinue(fromD, to: toD, round: round, offset: offset) else { continue }
+                fromString = fromString.replacingOccurrences(of: fromValues[i], with: String(format: format?[i] ?? "%0.0f", Counter.shift(fromD, to: toD, round: round, offset: offset)))
                 shouldInvalidate = false
             }
             if shouldInvalidate {
