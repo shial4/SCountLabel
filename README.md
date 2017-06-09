@@ -65,7 +65,7 @@ Clone the repo and drag the file `SCountLabel.swift` into your Xcode project.
 
 **Swift Package Manager:**
 
-Add the line `.Package(url: "https://github.com/shial4/SCountLabel.git", majorVersion: 0, minor: 1)` to your `Package.swift`
+Add the line `.Package(url: "https://github.com/shial4/SCountLabel.git", majorVersion: 0, minor: 0)` to your `Package.swift`
 
 ## ⭐ Contributing
 
