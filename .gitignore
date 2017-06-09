@@ -21,10 +21,6 @@ DerivedData
 !default.perspectivev3
 xcuserdata
 
-*.xcodeproj
-*.xcodeproj/*
-!*.xcodeproj/project.pbxproj
-
 ## Other
 *.xccheckout
 *.moved-aside
