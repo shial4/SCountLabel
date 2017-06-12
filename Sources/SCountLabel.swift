@@ -15,7 +15,7 @@ extension UILabel {
     
     func count(from: String, to: String, interval: TimeInterval = 0.05, format: [String]? = nil) {
         struct Counter {
-            static var timer: Timer?
+            static var timer: [UILabel : Timer] = [:]
             static func numbers(_ text: String) -> [String] {
                 do {
                     let regex = try NSRegularExpression(pattern: "[\\-\\+]?[0-9]*(\\.[0-9]+)?")
@@ -38,13 +38,12 @@ extension UILabel {
                 if to - from < 0 {
                     return (from - (1 * pow(10.0, offset)) * round)
                 } else {
-                    print((from + (1 * pow(10.0, offset)) * round))
                     return (from + (1 * pow(10.0, offset)) * round)
                 }
             }
         }
-        Counter.timer?.invalidate()
-        Counter.timer = nil
+        Counter.timer[self]?.invalidate()
+        Counter.timer.removeValue(forKey: self)
         text = from
         let fromValues = Counter.numbers(from)
         let toValues = Counter.numbers(to)
@@ -54,7 +53,7 @@ extension UILabel {
             return
         }
         var round: Double = 1
-        Counter.timer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) {[weak self] timer in
+        Counter.timer[self] = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) {[weak self] timer in
             var fromString = from
             var shouldInvalidate = true
             for i in 0..<numbersCount {
@@ -67,8 +66,10 @@ extension UILabel {
             }
             if shouldInvalidate {
                 self?.text = to
-                Counter.timer?.invalidate()
-                Counter.timer = nil
+                if let strongSelf = self {
+                    Counter.timer[strongSelf]?.invalidate()
+                    Counter.timer.removeValue(forKey: strongSelf)
+                }
             } else {
                 self?.text = fromString
                 round = round + 1
