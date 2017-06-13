@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 extension UILabel {
     func count(to: String, interval: TimeInterval = 0.2, format: [String]? = nil) {
@@ -15,7 +16,7 @@ extension UILabel {
     
     func count(from: String, to: String, interval: TimeInterval = 0.05, format: [String]? = nil) {
         struct Counter {
-            static var timer: [UILabel : Timer] = [:]
+            static var timer: NSMapTable<UILabel,Timer> = NSMapTable(keyOptions: NSPointerFunctions.Options.weakMemory, valueOptions: NSPointerFunctions.Options.strongMemory)
             static func numbers(_ text: String) -> [String] {
                 do {
                     let regex = try NSRegularExpression(pattern: "[\\-\\+]?[0-9]*(\\.[0-9]+)?")
@@ -42,8 +43,8 @@ extension UILabel {
                 }
             }
         }
-        Counter.timer[self]?.invalidate()
-        Counter.timer.removeValue(forKey: self)
+        Counter.timer.object(forKey: self)?.invalidate()
+        Counter.timer.removeObject(forKey: self)
         text = from
         let fromValues = Counter.numbers(from)
         let toValues = Counter.numbers(to)
@@ -53,7 +54,7 @@ extension UILabel {
             return
         }
         var round: Double = 1
-        Counter.timer[self] = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) {[weak self] timer in
+        Counter.timer.setObject(Timer.scheduledTimer(withTimeInterval: interval, repeats: true) {[weak self] timer in
             var fromString = from
             var shouldInvalidate = true
             for i in 0..<numbersCount {
@@ -66,14 +67,12 @@ extension UILabel {
             }
             if shouldInvalidate {
                 self?.text = to
-                if let strongSelf = self {
-                    Counter.timer[strongSelf]?.invalidate()
-                    Counter.timer.removeValue(forKey: strongSelf)
-                }
+                Counter.timer.object(forKey: self)?.invalidate()
+                Counter.timer.removeObject(forKey: self)
             } else {
                 self?.text = fromString
                 round = round + 1
             }
-        }
+        }, forKey: self)
     }
 }
