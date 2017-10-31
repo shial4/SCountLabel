@@ -4,6 +4,15 @@
 import PackageDescription
 
 let package = Package(
-    name: "SCountLabel"
+    name: "SCountLabel",
+    products: [
+        .library(
+            name: "SCountLabel",
+            targets: ["SCountLabel"]
+        )
+    ],
+    targets: [
+        .target(name: "SCountLabel")
+    ]
 )
 
