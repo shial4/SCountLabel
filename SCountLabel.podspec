@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
   s.homepage     = "https://github.com/shial4/SCountLabel.git"
   s.license      = { :type => "MIT", :file => "LICENSE" }
   s.author             = { "Szymon Lorenz" => "shial184686@gmail.com" }
-  s.social_media_url   = "https://twitter.com/shial_4"
+  s.social_media_url   = "https://www.facebook.com/SLSolutionsAU/"
   s.ios.deployment_target = "10.0"
   s.source       = { :git => "https://github.com/shial4/SCountLabel.git", :tag => s.version.to_s }
   s.source_files  = "Sources/**/*.swift"
