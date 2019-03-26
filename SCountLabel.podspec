@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "SCountLabel"
-  s.version      = "0.0.6"
+  s.version      = "0.0.7"
   s.summary      = "Swift counting label."
   s.description  = <<-DESC
     SCountLabel is an easy way to make your UIKit label count from one value to another!

@@ -2,7 +2,7 @@
 
 <p align="center">
     <a href="http://swift.org">
-        <img src="https://img.shields.io/badge/Swift-3.0-brightgreen.svg" alt="Language" />
+        <img src="https://img.shields.io/badge/Swift-5.0-brightgreen.svg" alt="Language" />
     </a>
     <a href="https://raw.githubusercontent.com/shial4/SCountLabel/master/LICENSE">
         <img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License" />
